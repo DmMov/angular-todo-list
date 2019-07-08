@@ -48,8 +48,7 @@
             ],
             "styles": [
               "src/_normalize.sass",
-              "src/styles.sass",
-              "src/header.sass"
+              "src/styles.sass"
             ],
             "scripts": []
           },
