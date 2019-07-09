@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Todo } from '../models/todo';
+import { ITodo } from '../models/ITodo';
 
 @Component({
   selector: '[app-todo]',
@@ -7,17 +7,17 @@ import { Todo } from '../models/todo';
   styleUrls: ['./todo.component.sass']
 })
 export class TodoComponent implements OnInit {
-  @Input() todo: Todo;
+  @Input() todo: ITodo;
   constructor() { }
 
   ngOnInit() {
   }
 
-  onToggle = (todo: Todo) => {
+  onToggle = (todo: ITodo) => {
     todo.completed = !todo.completed
   }
   
-  onDelete = (todo: Todo) => {
+  onDelete = (todo: ITodo) => {
     console.log('delete');
   }
 }
