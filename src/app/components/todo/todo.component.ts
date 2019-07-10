@@ -18,7 +18,7 @@ export class TodoComponent implements OnInit {
 
   onToggle = (todo: ITodo) => {
     todo.completed = !todo.completed;
-    this.todoService.toggleCompleted(todo).subscribe(t => this.todo.completed = t.completed)
+    this.todoService.toggleCompleted(todo);
   }
   
   onDelete = (todo: ITodo) => {

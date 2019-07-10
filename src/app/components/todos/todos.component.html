@@ -1,6 +1,6 @@
 <p 
   app-todo 
-  *ngFor="let todo of todos" 
+  *ngFor="let todo of todoService.todos" 
   [todo]="todo" 
   [ngClass]="{'is-completed': todo.completed}"
   (deleteTodo)="deleteTodo($event)"

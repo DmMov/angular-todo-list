@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ITodo } from '../models/ITodo';
 import { Observable } from 'rxjs';
+import { todosUrl, todosLimitOption } from 'src/assets/urls';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,24 +14,43 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class TodoService {
-  todosUrl: string = 'https://jsonplaceholder.typicode.com/todos';
-  todosLimit: string = '?_limit=5'
+  todos: ITodo[];
 
   constructor(private http: HttpClient) { }
 
-  getTodos = (): Observable<ITodo[]> => {
-    return this.http.get<ITodo[]>(this.todosUrl + this.todosLimit)
+  getTodos = (): void => {
+    this.http
+      .get<ITodo[]>(todosUrl + todosLimitOption)
+      .toPromise()
+      .then(res => this.todos = res);
   }
 
-  toggleCompleted = (todo: ITodo): Observable<any> => {
-    const url = `${this.todosUrl}/${todo.id}`;
-    return this.http.put(url, todo, httpOptions);
+  toggleCompleted = (todo: ITodo): void => {
+    const url = `${todosUrl}/${todo.id}`;
+    this.http
+      .put(url, todo, httpOptions)
+      .toPromise()
+      .then((todo: ITodo) => {
+        this.todos = this.todos.map(t => {
+          return t.id == todo.id ? todo : t;
+        });
+      })
+  }
+
+  addTodo = async (todo: any): Promise<boolean> => {
+    let result: boolean = false;
+    await this.http
+      .post<ITodo>(todosUrl, todo, httpOptions)
+      .toPromise()
+      .then(newTodo => {
+        this.todos = [...this.todos, newTodo];
+        result = true;
+      });
+    return result;
   }
   
   deleteTodo = (todo: ITodo): Observable<ITodo> => {
-    const url = `${this.todosUrl}/${todo.id}`;
+    const url = `${todosUrl}/${todo.id}`;
     return this.http.delete<ITodo>(url, httpOptions);
   }
-  
-  
 }
