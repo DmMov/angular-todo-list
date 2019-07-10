@@ -6,16 +6,19 @@ import { MatCheckboxModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule }   from '@angular/forms';
+import { MatInputModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { TodosComponent } from './todos/todos.component';
-import { TodoComponent } from './todo/todo.component';
+import { TodosComponent } from './components/todos/todos.component';
+import { TodoComponent } from './components/todo/todo.component';
+import { AddTodoComponent } from './components/add-todo/add-todo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodosComponent,
     TodoComponent,
+    AddTodoComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,8 @@ import { TodoComponent } from './todo/todo.component';
     BrowserAnimationsModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
