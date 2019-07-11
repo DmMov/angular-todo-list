@@ -8,9 +8,8 @@ import { TodoService } from '../../services/todo.service';
   styleUrls: ['./todos.component.sass']
 })
 export class TodosComponent implements OnInit {
-  title: string = 'all todos';
   constructor(private todoService: TodoService) { }
-
+  
   ngOnInit() {
     this.todoService.getTodos();
   }

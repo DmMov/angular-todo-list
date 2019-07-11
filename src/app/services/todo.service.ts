@@ -15,6 +15,8 @@ const httpOptions = {
 })
 export class TodoService {
   todos: ITodo[];
+  searchedTodos: ITodo[];
+  title: string = 'all todos';
 
   constructor(private http: HttpClient) { }
 
@@ -56,4 +58,15 @@ export class TodoService {
       .toPromise()
       .then(() => this.todos = this.todos.filter(t => todo.id != t.id));
   }
+
+  searchTodo = (searched: string) => {
+    if (searched != '') {
+      this.searchedTodos = this.todos.filter(todo => todo.title.includes(searched));
+      this.title = 'searched todos';
+    } else {
+      this.searchedTodos = undefined;
+      this.title = 'all todos';
+    }
+  }
+  
 }

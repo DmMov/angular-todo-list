@@ -1,8 +1,17 @@
-<h4 class="h4-title">{{title}}</h4>
+<h4 class="h4-title">{{todoService.title}}</h4>
 <p 
   app-todo 
-  *ngFor="let todo of todoService.todos" 
+  *ngFor="let todo of todoService.searchedTodos === undefined ? todoService.todos : todoService.searchedTodos" 
   [todo]="todo" 
   [ngClass]="{'is-completed': todo.completed}"
 >
+</p>
+<p 
+  *ngIf="todoService.searchedTodos !== undefined && todoService.searchedTodos.length === 0 
+  || todoService.todos !== undefined && todoService.todos.length === 0" 
+  class="empty-list"
+>
+  <span class="message">
+    no todos
+  </span>
 </p>
