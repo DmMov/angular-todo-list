@@ -49,8 +49,11 @@ export class TodoService {
     return result;
   }
   
-  deleteTodo = (todo: ITodo): Observable<ITodo> => {
+  deleteTodo = (todo: ITodo): void => {
     const url = `${todosUrl}/${todo.id}`;
-    return this.http.delete<ITodo>(url, httpOptions);
+    this.http
+      .delete(url, httpOptions)
+      .toPromise()
+      .then(() => this.todos = this.todos.filter(t => todo.id != t.id));
   }
 }

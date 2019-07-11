@@ -3,6 +3,5 @@
   *ngFor="let todo of todoService.todos" 
   [todo]="todo" 
   [ngClass]="{'is-completed': todo.completed}"
-  (deleteTodo)="deleteTodo($event)"
 >
 </p>
