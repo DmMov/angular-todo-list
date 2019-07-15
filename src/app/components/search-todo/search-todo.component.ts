@@ -11,5 +11,5 @@ export class SearchTodoComponent {
   constructor(private todoService: TodoService) { }
 
   onSubmit = () =>
-    this.todoService.searchTodo(this.searched);
+    this.todoService.search(this.searched);
 }

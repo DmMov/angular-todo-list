@@ -30,7 +30,7 @@ import { SearchTodoComponent } from './components/search-todo/search-todo.compon
     MatCheckboxModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

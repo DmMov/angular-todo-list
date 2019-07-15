@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ITodo } from '../models/ITodo';
-import { Observable } from 'rxjs';
-import { todosUrl, todosLimitOption } from 'src/assets/urls';
+import { todosUrl } from 'src/assets/urls';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-type': 'application/json' 
+    'Content-type': 'application/json',
   })
 }
 
@@ -22,30 +21,23 @@ export class TodoService {
 
   getTodos = (): void => {
     this.http
-      .get<ITodo[]>(todosUrl + todosLimitOption)
-      .toPromise()
-      .then(res => this.todos = res);
+      .get(todosUrl, { observe: 'response' })
+      .subscribe(response => this.todos = response.body['todos']);
   }
 
   toggleCompleted = (todo: ITodo): void => {
     const url = `${todosUrl}/${todo.id}`;
     this.http
-      .put(url, todo, httpOptions)
-      .toPromise()
-      .then((todo: ITodo) => {
-        this.todos = this.todos.map(t => {
-          return t.id == todo.id ? todo : t;
-        });
-      })
+      .put<{ todo: ITodo }>(url, todo, httpOptions)
+      .subscribe(res => this.todos = this.todos.map(t => t.id == res.todo.id ? res.todo : t))
   }
 
-  addTodo = async (todo: any): Promise<boolean> => {
+  addTodo = async (title: string): Promise<boolean> => {
     let result: boolean = false;
     await this.http
-      .post<ITodo>(todosUrl, todo, httpOptions)
-      .toPromise()
-      .then(newTodo => {
-        this.todos = [...this.todos, newTodo];
+      .post<{ todo: ITodo }>(todosUrl, { title }, httpOptions)
+      .subscribe(res => {
+        this.todos = [...this.todos, res.todo];
         result = true;
       });
     return result;
@@ -55,14 +47,21 @@ export class TodoService {
     const url = `${todosUrl}/${todo.id}`;
     this.http
       .delete(url, httpOptions)
-      .toPromise()
-      .then(() => this.todos = this.todos.filter(t => todo.id != t.id));
+      .subscribe(() => this.todos = this.todos.filter(t => todo.id != t.id));
   }
 
-  searchTodo = (searched: string) => {
+  search = (searched: string) => {
     if (searched != '') {
-      this.searchedTodos = this.todos.filter(todo => todo.title.includes(searched));
-      this.title = 'searched todos';
+      this.http
+        .get(`${todosUrl}search/${searched}`, { observe: 'response' })
+        .subscribe(response => {
+          if(response.status == 200) {
+            this.title = 'searched todos';
+            this.searchedTodos = response.body['todos'];
+          }
+          else if(response.status == 204)
+            this.searchedTodos = []
+        });
     } else {
       this.searchedTodos = undefined;
       this.title = 'all todos';

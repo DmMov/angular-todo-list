@@ -12,11 +12,7 @@ export class AddTodoComponent {
   
   onSubmit = () => {
     if (this.title !== '' && typeof(this.title) !== 'undefined') {
-      const todo: any = {
-        title: this.title,
-        completed: false
-      }
-      this.title = this.todoService.addTodo(todo) && '';
+      this.title = this.todoService.addTodo(this.title) && '';
     }
   }
   

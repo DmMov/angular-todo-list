@@ -1,3 +1,4 @@
-<mat-checkbox color="accent" (click)="onToggle(todo)" [(ngModel)]="todo.completed"></mat-checkbox>
+<mat-checkbox color="accent" class="checkbox" (click)="onToggle(todo)" [(ngModel)]="todo.completed"></mat-checkbox>
 <span class="title">{{ todo.title }}</span>
+<span class="date">{{ todo.date }}</span>
 <button (click)="onDelete(todo)" class="del">+</button>

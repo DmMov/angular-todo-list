@@ -1,2 +1,2 @@
-export const todosUrl: string = 'https://jsonplaceholder.typicode.com/todos';
-export const todosLimitOption: string = '?_limit=5';
+export const host: string = 'https://localhost:44374/'  
+export const todosUrl: string = host + 'todos/';
